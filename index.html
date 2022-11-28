@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clipboard</title>
+</head>
+<body>
+    
+    <img width="300px" height="300px" src="https://images.unsplash.com/photo-1526547541286-73a7aaa08f2a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1974&q=80" id="imgid"> <br>
+
+    <p id="textid">
+        Sunflower is the most common flower in the world.<br>
+        It really is a very beautiful flower.<br>
+        World around the world use this floweer to make oil.<br>
+    </p>
+    <button id="btnid">Copy text</button>
+    <button onclick="copyPicture()">Copy Image</button>
+    
+    <script>
+
+            // text
+            let copybtn = document.getElementById('btnid');
+            let photo = document.getElementById('copyimg')
+
+
+            copybtn.addEventListener('click',(event)=>{
+
+                    let content = document.getElementById('textid')
+                    let l = content.textContent
+                    navigator.clipboard.writeText(l);
+                    //const copied = navigator.clipboard.readText();
+
+
+            })
+            // image 
+            async function copyPicture() {
+                try {
+                    const response = await fetch('https://images.unsplash.com/photo-1526547541286-73a7aaa08f2a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1974&q=80');
+                    const blob = await response.blob();
+                    await navigator.clipboard.write([
+                    new ClipboardItem({
+                        [blob.type]: blob
+                    })
+                    ]);
+                    console.log('Image copied.');
+                } catch (err) {
+                    console.error(err.name, err.message);
+                }
+            };
+
+
+
+    </script>   
+    
+</body>
+</html>
