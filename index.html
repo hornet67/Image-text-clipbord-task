@@ -8,7 +8,7 @@
 </head>
 <body>
     
-    <img width="300px" height="300px" src="https://images.unsplash.com/photo-1526547541286-73a7aaa08f2a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1974&q=80" id="imgid"> <br>
+    <img width="300px" height="300px" src="./img.png" id="imgid"> <br>
 
     <p id="textid">
         Sunflower is the most common flower in the world.<br>
@@ -16,13 +16,14 @@
         World around the world use this floweer to make oil.<br>
     </p>
     <button id="btnid">Copy text</button>
-    <button onclick="copyPicture()">Copy Image</button>
+    <button id = 'btnid2'>Copy Image</button>
     
     <script>
 
             // text
             let copybtn = document.getElementById('btnid');
-            let photo = document.getElementById('copyimg')
+            let photo = document.getElementById('btnid2');
+            let img = document.getElementById('imgid')
 
 
             copybtn.addEventListener('click',(event)=>{
@@ -30,26 +31,39 @@
                     let content = document.getElementById('textid')
                     let l = content.textContent
                     navigator.clipboard.writeText(l);
+                    
                     //const copied = navigator.clipboard.readText();
 
 
             })
             // image 
-            async function copyPicture() {
-                try {
-                    const response = await fetch('https://images.unsplash.com/photo-1526547541286-73a7aaa08f2a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1974&q=80');
-                    const blob = await response.blob();
-                    await navigator.clipboard.write([
-                    new ClipboardItem({
-                        [blob.type]: blob
-                    })
-                    ]);
-                    console.log('Image copied.');
-                } catch (err) {
-                    console.error(err.name, err.message);
-                }
-            };
+            
 
+            photo.addEventListener('click',() => {
+                copyToClipboard(img.src);
+
+            });
+
+            async function copyToClipboard(src){
+                const data = await fetch(src);
+                
+                //console.log(ulink)
+                const blob = await data.blob();
+               
+                try{
+
+                    navigator.clipboard.write([
+                    new ClipboardItem({
+                        [blob.type]:blob,
+                    })
+                ])
+                console.log('Copied image')
+                }
+                catch(e){
+                    console.log(e);
+                }
+
+            }
 
 
     </script>   
